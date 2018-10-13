@@ -1,5 +1,5 @@
 # FaceID
-The project involves the use of Intel's OpenCV library in conjunction with Python for Face Detection, Identification and Recognition.
+The project involves the use of Intel's OpenCV library in conjunction with Python for Face Detection, Identification and Recognition. The sole purpose of this project is to eliminate the use of typing passwords for logging into Remote Desktop and running applications within it.
 
 
 **Author:** XA
