@@ -20,6 +20,11 @@
   <a href="#license">License</a>
 </p>
 
+<h1 align="center">
+  <br>
+  <img alt="FaceIDLogin" title="FaceIDLogin" src="https://github.com/xames3/FaceID/blob/repository_assets/FaceIDLogin.gif?raw=true" width="1000"></a>
+  <br>
+
 ## Introduction
 The project involves the use of Intel's OpenCV library in conjunction with Python for realtime Face Detection and Recognition. The sole purpose of this project is to eliminate the process of typing passwords for logging into Remote Desktop and running applications within it using Python's massive package repo.
 
