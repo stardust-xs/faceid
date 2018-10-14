@@ -30,7 +30,7 @@ The code is primarily built in python with support for both Mac OS and Windows, 
    * [Choosing IDE](#choosing-ide)
 
 	  * ### Cloning Repository
-	      * If you've Python and OpenCV dependencies already installed in your system you can skip the below steps and clone the repository in your system by pasting `git clone https://github.com/xames3/FaceID.git` in CMD or Terminal. I'm using Git Bash here.
+	      * If you've Python and OpenCV dependencies already installed in your system you can skip the below steps and clone the repository in your system by pasting `git clone https://github.com/xames3/FaceID.git` in CMD or Terminal. I'm using [GitBash](https://git-scm.com/downloads) here.
 
 	  <p align="center"> 
 	      <img alt="GitClone" title="GitClone" src="https://github.com/xames3/FaceID/blob/repository_assets/git_clone.PNG?raw=true" width="462"><p/>
@@ -43,30 +43,27 @@ The code is primarily built in python with support for both Mac OS and Windows, 
 	  * ### Dependencies
 	       * After pip is updated, update all the standard built-in packages using the `pip install --upgrade <packagename>` command or use my [pip updater](https://github.com/xames3/FaceID/blob/repository_assets/pip_updater.py) code for updating it automatically. Please be patient as it may take sometime depending upon speed of your internet.
 
-	       * For FaceID to be working we need the below mentioned Python packages to be installed:
-		    * OpenCV: `pip install --upgrade opencv-contrib-python`
-		    * Cmake: `pip install --upgrade cmake`
-		    * Boost: `pip install --upgrade boost`
-		    * Dlib: `pip install --upgrade dlib`
-		    * Pillow: `pip install --upgrade pillow`
-		    * Pyautogui: `pip install --upgrade pyautogui`
-		    * Openpyxl: `pip install --upgrade openpyxl`
-		    * xlrd: `pip install --upgrade xlrd`
+        * For FaceID to be working we need the below mentioned Python packages to be installed:
+	      * OpenCV: `pip install --upgrade opencv-contrib-python`
+	      * Cmake: `pip install --upgrade cmake`
+	      * Boost: `pip install --upgrade boost`
+	      * Dlib: `pip install --upgrade dlib`
+	      * Pillow: `pip install --upgrade pillow`
+	      * Pyautogui: `pip install --upgrade pyautogui`
+	      * Openpyxl: `pip install --upgrade openpyxl`
+	      * xlrd: `pip install --upgrade xlrd`
 
-	       * We need [Haar Classifiers](https://github.com/opencv/opencv/tree/master/data/haarcascades) and [Dlib's Facial Landmarks](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2) to be downloaded both of which are present in project files under [Cascades](https://github.com/xames3/FaceID/tree/master/Cascades).
+	    * We need [Haar Classifiers](https://github.com/opencv/opencv/tree/master/data/haarcascades) and [Dlib's Facial Landmarks](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2) to be downloaded both of which are present in project files under [Cascades](https://github.com/xames3/FaceID/tree/master/Cascades).
 
 	  * ### Choosing IDE
 	      * You can use any Python supporting IDE of your preference. I prefer working on [Sublime Text 3](https://www.sublimetext.com/3) due to it's Package Control system and useful plugins for Python.
     
 ## Code
 The logic built around the program is to first detect face(s) in the visible feed. If the face(s) are detected the program will try to recognize the face\person using the dynamically trained model. The code is built in 3 primary stages.
-
-   * [Face Detection](#face-detection)
-   * [Face Recognition](#face-recognition)
-   * [RDP Login](#rdp-login)
-
-     * ### Face Detection
-
+* [Face Detection](#face-detection)
+* [Face Recognition](#face-recognition)
+* [RDP Login](#rdp-login)
+	 * ### Face Detection
 		 ```python
 		 while (True):
 		 ret, color_feed = live_capture.read()
@@ -79,10 +76,9 @@ The logic built around the program is to first detect face(s) in the visible fee
 		 else:
 		 ...
 		 ```
-
 		* The above snippet checks if there are any faces in the output window `color_feed`. If face(s) are found it takes respective actions using the ```if-elif-else``` condititons.
 
-      * ### Face Recognition
+     * ### Face Recognition
 
 		 ```python
 		 face_recognizer = cv2.face.LBPHFaceRecognizer_create()
@@ -115,15 +111,13 @@ The logic built around the program is to first detect face(s) in the visible fee
 ## Pipeline
 
 Pipeline shows the scope of the project
-
 * [Planned Features](#planned-features)
 * [Known Issues](#known-issues)
-
 	 * ### Planned Features
 	    * Converting into an executable file.
 	    * Making the Face recognition model more robust and reliable.
 	    * Support for password encryption in the excels files.
-
+	    
 	 * ### Known Issues
 	    * Application tends to get slow when multiple faces are detected.
 	    * Cannot distinguish between multiple users with same name.
@@ -132,7 +126,6 @@ Pipeline shows the scope of the project
   
 ## Version History
 You can find the changelog of version [here](https://).
-
 * [Latest Build](#latest-build)
 * [Experimental Build](#experimental-build)
 	 * ### Latest Build
@@ -140,8 +133,8 @@ You can find the changelog of version [here](https://).
 		* Bug fixes, stability improvements.
 		* Added support for tilted face detection upto 30°.
 		* Disabled facial landmarks from the code.
-			* Added support for more colours.
-			* Face detection box now covers the entire face instead of being a square.
+		* Added support for more colours.
+		* Face detection box now covers the entire face instead of being a square.
 		* Added support for .xlsx files while storing the data.
 		* Minor text fixes, etc.
 
