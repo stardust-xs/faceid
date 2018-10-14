@@ -225,6 +225,7 @@ def reading_face():
         sys.stdout.write('\r>>> Reading captured frames -')
         time.sleep(0.1)
 
+# Training faces:
 # Function for animating training faces text 
 def training_model():
     loop_index = 1
@@ -239,12 +240,16 @@ def training_model():
         sys.stdout.write('\r>>> Training Face Model -')
         time.sleep(0.1)
 
+# Text XY Position:
+# Function for calculating the display text size
 def text_xy_pos(text):
     text_size = cv2.getTextSize(text, font, 0.5, 2)[0]
     text_x = (gray_feed.shape[1] - text_size[0]) / 2
     text_y = (gray_feed.shape[0] + text_size[1]) / 2
     return text_x, text_y
 
+# Face alignment:
+# Function used for aligning the tilted faces
 def align_face(input_feed, angle):
     if angle == 0: return input_feed
     height, width = input_feed.shape[:2]
@@ -252,6 +257,8 @@ def align_face(input_feed, angle):
     result = cv2.warpAffine(input_feed, rot_mat, (width, height), flags=cv2.INTER_LINEAR)
     return result
 
+# Aligned faces coords:
+# Function for calculating compensating coords for aligned face
 def align_face_coords(pos, input_feed, angle):
     if angle == 0: return pos
     x = pos[0] - input_feed.shape[1] * 0.4
@@ -260,6 +267,8 @@ def align_face_coords(pos, input_feed, angle):
     new_y = -x * sin(radians(angle)) + y * cos(radians(angle)) + input_feed.shape[0] * 0.4
     return int(new_x), int(new_y), pos[2], pos[3]
 
+# Face detected HUD:
+# Function displays the rounded rectangle around the detected face
 def face_hud(src, x, y, w, h, color):
     r = int(w / 20)
     cv2.line(src, (x + r, y), (x + w - r, y), color)
