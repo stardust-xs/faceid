@@ -1,11 +1,13 @@
-<h1 align="center">FaceID</h1> <br>
-<p align="center">
-    <img alt="FaceID" title="FaceID" src="https://github.com/xames3/FaceID/blob/repository_assets/PopShot_XA_logo_small.png?raw=true" width="250">
-  </a>
-</p>
-<p align="center">
-Your face is the new password. Built in Python.
-</p>
+
+<h1 align="center">
+  <br>
+  <img alt="FaceID" title="FaceID" src="https://github.com/xames3/FaceID/blob/repository_assets/PopShot_XA_logo_small.png?raw=true" width="250"></a>
+  <br>
+  FaceID
+  <br>
+</h1>
+
+<h4 align="center">Your face is the new password. Built in <a href="https://www.python.org/downloads/" target="_blank">Python</a>.</h4>
 
 <p align="center">
   <a href="#introduction">Introduction</a> •
