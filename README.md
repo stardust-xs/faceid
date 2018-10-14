@@ -23,39 +23,35 @@ The project involves the use of Intel's OpenCV library in conjunction with Pytho
 
 ## Getting Started
 The code is primarily built in python with support for both Mac OS and Windows, however the code will work efficiently on Windows due to the packages which natively supports Windows scaling.
-
-   * [Cloning Repository](#cloning-repository)
-   * [Installing Python](#installing-python)
-   * [Dependencies](#dependencies)
-   * [Choosing IDE](#choosing-ide)
-
-	  * ### Cloning Repository
+* [Cloning Repository](#cloning-repository)
+* [Installing Python](#installing-python)
+* [Dependencies](#dependencies)
+* [Choosing IDE](#choosing-ide)
+	 * ### Cloning Repository
 	      * If you've Python and OpenCV dependencies already installed in your system you can skip the below steps and clone the repository in your system by pasting `git clone https://github.com/xames3/FaceID.git` in CMD or Terminal. I'm using [GitBash](https://git-scm.com/downloads) here.
-
 	  <p align="center"> 
 	      <img alt="GitClone" title="GitClone" src="https://github.com/xames3/FaceID/blob/repository_assets/git_clone.PNG?raw=true" width="462"><p/>
-
-	  * ### Installing Python
+	 * ### Installing Python
 	      * Although Python 2.7 is supported as well, it is strongly recommended to clone the project against the latest Python 3.x or minimum 3.5.x builds whenever possible. This will ensure that some of the newer features of the used packages, such as speedup mechanisms of OpenCV and Pyautogui's `pyautogui.locateOnScreen` work out of the box without any issues. You can find all Python 2 and 3 builds [here](https://www.python.org/downloads/).
+	     * Once you've installed Python in your system make sure you update **pip** using `python -m pip install --upgrade pip` command in CMD or Terminal.
 
-	      * Once you've installed Python in your system make sure you update **pip** using `python -m pip install --upgrade pip` command in CMD or Terminal.
+	 * ### Dependencies
+	     * After pip is updated, update all the standard built-in packages using the `pip install --upgrade <packagename>` command or use my [pip updater](https://github.com/xames3/FaceID/blob/repository_assets/pip_updater.py) code for updating it automatically. Please be patient as it may take sometime depending upon speed of your internet.
 
-	  * ### Dependencies
-	       * After pip is updated, update all the standard built-in packages using the `pip install --upgrade <packagename>` command or use my [pip updater](https://github.com/xames3/FaceID/blob/repository_assets/pip_updater.py) code for updating it automatically. Please be patient as it may take sometime depending upon speed of your internet.
+	     * For FaceID to be working we need the below mentioned Python packages to be installed:
+		      * OpenCV: `pip install --upgrade opencv-contrib-python`
+		      * Cmake: `pip install --upgrade cmake`
+		      * Boost: `pip install --upgrade boost`
+		      * Dlib: `pip install --upgrade dlib`
+		      * Pillow: `pip install --upgrade pillow`
+		      * Pyautogui: `pip install --upgrade pyautogui`
+		      * Openpyxl: `pip install --upgrade openpyxl`
+		      * xlrd: `pip install --upgrade xlrd`
+	 
+	 
+	     * We need [Haar Classifiers](https://github.com/opencv/opencv/tree/master/data/haarcascades) and [Dlib's Facial Landmarks](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2) to be downloaded both of which are present in project files under [Cascades](https://github.com/xames3/FaceID/tree/master/Cascades).
 
-        * For FaceID to be working we need the below mentioned Python packages to be installed:
-	      * OpenCV: `pip install --upgrade opencv-contrib-python`
-	      * Cmake: `pip install --upgrade cmake`
-	      * Boost: `pip install --upgrade boost`
-	      * Dlib: `pip install --upgrade dlib`
-	      * Pillow: `pip install --upgrade pillow`
-	      * Pyautogui: `pip install --upgrade pyautogui`
-	      * Openpyxl: `pip install --upgrade openpyxl`
-	      * xlrd: `pip install --upgrade xlrd`
-
-	    * We need [Haar Classifiers](https://github.com/opencv/opencv/tree/master/data/haarcascades) and [Dlib's Facial Landmarks](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2) to be downloaded both of which are present in project files under [Cascades](https://github.com/xames3/FaceID/tree/master/Cascades).
-
-	  * ### Choosing IDE
+	 * ### Choosing IDE
 	      * You can use any Python supporting IDE of your preference. I prefer working on [Sublime Text 3](https://www.sublimetext.com/3) due to it's Package Control system and useful plugins for Python.
     
 ## Code
