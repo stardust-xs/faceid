@@ -37,7 +37,7 @@ The code is primarily built in python with support for both Mac OS and Windows, 
 	 * ### Cloning Repository
 	      * If you've Python and OpenCV dependencies already installed in your system you can skip the below steps and clone the repository in your system by pasting `git clone https://github.com/xames3/FaceID.git` in CMD or Terminal. I'm using [GitBash](https://git-scm.com/downloads) here.
 	  <p align="center"> 
-	      <img alt="GitClone" title="GitClone" src="https://github.com/xames3/FaceID/blob/repository_assets/git_clone.PNG?raw=true" width="462"><p/>
+	      <img alt="GitClone" title="GitClone" src="https://github.com/xames3/FaceID/blob/repository_assets/GitClone.gif?raw=true" width="507"><p/>
 	 * ### Installing Python
 	      * Although Python 2.7 is supported as well, it is strongly recommended to clone the project against the latest Python 3.x or minimum 3.5.x builds whenever possible. This will ensure that some of the newer features of the used packages, such as speedup mechanisms of OpenCV and Pyautogui's `pyautogui.locateOnScreen` work out of the box without any issues. You can find all Python 2 and 3 builds [here](https://www.python.org/downloads/).
 	     * Once you've installed Python in your system make sure you update **pip** using `python -m pip install --upgrade pip` command in CMD or Terminal.
