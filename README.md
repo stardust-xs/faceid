@@ -54,6 +54,7 @@ The code is primarily built in python with support for both Mac OS and Windows, 
 		      * Pyautogui: `pip install --upgrade pyautogui`
 		      * Openpyxl: `pip install --upgrade openpyxl`
 		      * xlrd: `pip install --upgrade xlrd`
+		      * Colorama: `pip install --upgrade colorama`
 	 
 	 
 	     * We need [Haar Classifiers](https://github.com/opencv/opencv/tree/master/data/haarcascades) and [Dlib's Facial Landmarks](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2) to be downloaded both of which are present in project files under [Cascades](https://github.com/xames3/FaceID/tree/master/Cascades).
@@ -123,7 +124,7 @@ Pipeline shows the scope of the project
 	    
 	 * ### Known Issues
 	    * Application tends to get slow when multiple faces are detected.
-	    * Cannot distinguish between multiple users with same name.
+	    * Cannot distinguish between multiple users with same name. (Fixed)
 	    * Code does not support ML yet.
 	    * FaceID fails under low-lighting conditions.
   
@@ -132,10 +133,10 @@ You can find the changelog of version [here](https://).
 * [Latest Build](#latest-build)
 * [Experimental Build](#experimental-build)
 	 * ### Latest Build
-		* Stable: 2.0.2
+		* Stable: 2.1
 		* Bug fixes, stability improvements.
 		* Added support for tilted face detection upto 30°.
-		* Disabled facial landmarks from the code.
+		* Facial landmarks are now slightly accurate.
 		* Added support for more colours.
 		* Face detection box now covers the entire face instead of being a square.
 		* Added support for .xlsx files while storing the data.
