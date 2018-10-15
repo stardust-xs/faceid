@@ -91,7 +91,7 @@ def close_after_launching_face_id():
 # Function will login into the UI and then launch Setup file
 def login_successful():
     login()
-    os.system('ProfileWizard.pyw')
+    os.startfile('ProfileWizard.pyw')
 
 # Banner frame:
 admin_banner_frame = Frame(login_window)

@@ -8,6 +8,7 @@ from tkinter import *
 from tkinter import StringVar
 from tkinter import messagebox
 from math import sin, cos, radians
+from termcolor import colored
 
 # Downloaded packages import:
 import cv2
@@ -16,7 +17,10 @@ import pickle
 import PIL.Image
 import numpy as np
 from openpyxl import *
+from colorama import init
 from PIL import Image, ImageTk
+
+init()
 
 # Directories declaration:
 root_directory = os.path.dirname(os.path.abspath(__file__))
@@ -111,6 +115,7 @@ def create_new_profile():
             for search_row in resource_data.rows:
                 if search_row[0].value == input_folder_name.get():
                     messagebox.showinfo('Warning', 'Name already exists. Please choose another name.')
+                    cancel_window()
                 else:
                     new_folder_path = faces_directory + input_folder_name.get() + '\\'
                     if not os.path.exists(new_folder_path):
@@ -184,7 +189,7 @@ def create_new_profile():
             resource_details.save(excels_directory + '\\ResourceDetails.xlsx')
         else:
             messagebox.showwarning('Error', 'Password cannot contain special characters.')
-    return new_folder_path
+    return new_folder_path, new_folder_value
 
 # Close GUI:
 # The below function is used for closing the main\base Tkinter window
@@ -211,17 +216,17 @@ def clicking_x_button():
 
 # Reading faces:
 # Function for animating reading faces text 
-def reading_face():
+def build_data():
     loop_index = 1
     while loop_index <= 10:
         loop_index += 1
-        sys.stdout.write('\r>>> Reading captured frames \\')
+        sys.stdout.write('\r[BUILD]   Building face data \\')
         time.sleep(0.1)
-        sys.stdout.write('\r>>> Reading captured frames |')
+        sys.stdout.write('\r[BUILD]   Building face data |')
         time.sleep(0.1)
-        sys.stdout.write('\r>>> Reading captured frames /')
+        sys.stdout.write('\r[BUILD]   Building face data /')
         time.sleep(0.1)
-        sys.stdout.write('\r>>> Reading captured frames -')
+        sys.stdout.write('\r[BUILD]   Building face data -')
         time.sleep(0.1)
 
 # Training faces:
@@ -230,13 +235,13 @@ def training_model():
     loop_index = 1
     while loop_index <= 10:
         loop_index += 1
-        sys.stdout.write('\r>>> Training Face Model \\')
+        sys.stdout.write('\r[TRAIN]   Training Face Model \\')
         time.sleep(0.1)
-        sys.stdout.write('\r>>> Training Face Model |')
+        sys.stdout.write('\r[TRAIN]   Training Face Model |')
         time.sleep(0.1)
-        sys.stdout.write('\r>>> Training Face Model /')
+        sys.stdout.write('\r[TRAIN]   Training Face Model /')
         time.sleep(0.1)
-        sys.stdout.write('\r>>> Training Face Model -')
+        sys.stdout.write('\r[TRAIN]   Training Face Model -')
         time.sleep(0.1)
 
 # Text XY Position:
@@ -421,10 +426,10 @@ faces_array = {}
 IDs = []
 FaceList = []
 
-# Reading Face data:
-print('>>> Reading the recorded face')
-reading_face()
-print('\n>>> Reading faces is completed')
+# Texts:
+print('[INFO]    Creating directory named "{}" under .\\Faces\\'.format(new_folder_value))
+build_data()
+print('\n[BUILD]   BUILD STATUS:', colored('SUCCESS!', 'green'))
 
 # Saving face images:
 for root, dirs, files in os.walk(faces_directory):
@@ -440,7 +445,7 @@ for root, dirs, files in os.walk(faces_directory):
 
             face_image = PIL.Image.open(path).convert('L')
             face_numpy_array = np.array(face_image, 'uint8')
-            face_in_folder = face_cascade.detectMultiScale(face_numpy_array, scaleFactor=1.3, minNeighbors=4)
+            face_in_folder = face_cascade.detectMultiScale(face_numpy_array, scaleFactor=1.3, minNeighbors=5)
 
             # Face dimensions:
             for (x, y, w, h) in face_in_folder:
@@ -455,6 +460,6 @@ with open(models_directory + 'Faces.pickle', 'wb') as f:
 # Saving Trained model:
 training_model()
 face_recognizer.train(FaceList, np.array(IDs))
-print('\n>>> Training complete.\n>>> Extracting model...\n>>> Saving model...')
+print('\n[TRAIN]   Training complete.\n[EXPORT]  Extracting model..\n[EXPORT]  Saving model...')
 face_recognizer.save(models_directory + 'FaceModel.yml')
-print('>>> Face model saved.\n>>> Terminating console.')
+print(colored('[SUCCESS]', 'green'), ' Face model saved.', colored('\n[EXIT]', 'red'), '    Terminating console.')

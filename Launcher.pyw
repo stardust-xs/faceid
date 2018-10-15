@@ -55,7 +55,7 @@ def close_after_launching_face_id():
 # FaceID:
 # Opens FaceID script
 def face_id():
-    os.system('FaceID.py')
+    os.startfile('FaceID.py')
 
 # Bypass FaceID:
 # Closes current window and opens FaceID
@@ -66,7 +66,7 @@ def launch_face_id_and_close():
 # Admin login window:
 # Displays Admin login prompt
 def admin_login():
-    os.system('Admin.pyw')
+    os.startfile('Admin.pyw')
 
 # Banner Frame:
 config_profile_banner_frame = Frame(base_window)

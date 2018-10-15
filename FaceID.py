@@ -196,6 +196,7 @@ while (True):
                             flag_variable = 1
                             resource_names[row_value[0]] = 'yes'
                             flag_variable = 0
+                            os.startfile(binaries_directory + 'RemoteDesktopLogin\\OnLoginChecker\\LoginAssist.py')
                 else:
                     cv2.putText(face_detection_box, labels[ID], (x, y + h + int(h * 0.15) + textsize[1]), font, 0.5, white, 1, cv2.LINE_AA)
                     cv2.rectangle(color_feed, (5, 5), (int(waiting_pos[0] + 17), int(waiting_pos[1] * 0.16) + 5), red, 1)

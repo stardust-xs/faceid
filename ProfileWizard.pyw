@@ -2,6 +2,7 @@
 import os
 import sys
 import time
+import win32process
 from tkinter import *
 from tkinter import StringVar
 from tkinter import messagebox
@@ -54,10 +55,10 @@ def create_and_close():
     close_window()
 
 def create_new_profile():
-    os.system('SetupFacialRecognition.py')
+    os.startfile('SetupFacialRecognition.py')
 
 def modify_profile():
-    os.system('ModifyExistingProfile.pyw')
+    os.startfile('ModifyExistingProfile.pyw')
 
 # Close after modifying new profile:
 # Function will modify existing profile and close the Tkinter window
