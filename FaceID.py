@@ -54,7 +54,7 @@ purple = [214, 86, 88]
 pink = [85, 45, 255]
 white = [255, 255, 255]
 black = [0, 0, 0]
-color_array = [red, blue, green, yellow, orange, teal_blue, purple, pink, white, black]
+color_array = [red, blue, green, yellow, orange, teal_blue, purple, pink, black]
 hud_color = random.choice(color_array)
 
 # Font variables:
@@ -63,6 +63,7 @@ font_duplex = cv2.FONT_HERSHEY_DUPLEX
 
 # Flag variables:
 flag_variable = 0
+xa_has_run = False
 
 # Functions:
 def face_hud(src, x, y, w, h, color):
@@ -122,14 +123,16 @@ while (True):
     ratio = 300.0 / color_feed.shape[1]
     dimensions = (300, int(color_feed.shape[0] * ratio))
     gray_feed = cv2.cvtColor(color_feed, cv2.COLOR_BGR2GRAY)
+    face_in_feed = face_cascade.detectMultiScale(gray_feed, scaleFactor=1.3, minNeighbors=5)
 
-    for angle in [0, -30, 30]:
-        tilted_face = align_face(gray_feed, angle)
-        face_in_feed = face_cascade.detectMultiScale(tilted_face, scaleFactor=1.3, minNeighbors=5)
-        if len(face_in_feed):
-            face_in_feed = [align_face_coords(face_in_feed[-1], gray_feed, -angle)]
-            break
-
+    if len(face_in_feed) == 1:
+        for angle in [0, -30, 30]:
+            tilted_face = align_face(gray_feed, angle)
+            face_in_feed = face_cascade.detectMultiScale(tilted_face, scaleFactor=1.3, minNeighbors=5)
+            if len(face_in_feed):
+                face_in_feed = [align_face_coords(face_in_feed[-1], gray_feed, -angle)]
+                break
+ 
     warning_pos = text_xy_pos(warning_text)
     waiting_pos = text_xy_pos(waiting_text)
     face_pos = text_xy_pos(face_detected_text)
@@ -151,7 +154,7 @@ while (True):
         for (x, y, w, h) in face_in_feed:
             if len(face_in_feed) == 1:
                 face_hud(color_feed, x, y, w, h, yellow)
-            else:
+            elif len(face_in_feed) <= 3:
                 face_hud(color_feed, x, y, w, h, random.sample(hud_color, 3))
             r = int(w / 20)
             face_detection_box = cv2.rectangle(color_feed, (x + r, y), (x + r, y), yellow, 1)
@@ -160,7 +163,7 @@ while (True):
             facial_landmarks = np.matrix([[p.x, p.y] for p in detected_landmarks])
             for idx, point in enumerate(facial_landmarks):
                 position = (point[0, 0], point[0, 1])
-                cv2.circle(gray_feed, position, 0, white, -1)
+                cv2.circle(color_feed, position, 0, white, -1)
 
             # Focusing on face:
             roi_gray_feed = gray_feed[y:y + h, x:x + w]
@@ -173,34 +176,31 @@ while (True):
             horizontal_alignment = (face_detection_box.shape[1] - textsize[0]) / 2
 
             # Confidence factor:
-            if confidence >= 55:
+            if confidence >= 55 and confidence < 100:
                 if len(face_in_feed) == 0:
                     pass
-                else:
-                    if len(face_in_feed) == 1:
-                        cv2.rectangle(color_feed, (5, 5), (int(waiting_pos[0] - 10), int(waiting_pos[1] * 0.16) + 5), red, 1)
-                        cv2.rectangle(color_feed, (10, 10), (int(waiting_pos[0] - 15), int(waiting_pos[1] * 0.16)), black, -1)
-                        cv2.putText(color_feed, face_detected_text, (15, 30), font, 0.5, white, 1,  cv2.LINE_AA)
-                        cv2.putText(face_detection_box, identified, (x + w + textsize[1] - 15, y - int(textsize[1] / 2)), font_duplex, 0.6, white, 1, cv2.LINE_AA)
-                        cv2.line(color_feed, (x + w + 7, y), (x + w + 160, y), white)
-                        cv2.putText(face_detection_box, labels[ID], (x + w + textsize[1] - 15, y + int(textsize[1] / 2) + 10), font, 0.5, white, 1, cv2.LINE_AA)
+                elif len(face_in_feed) == 1:
+                    cv2.rectangle(color_feed, (5, 5), (int(waiting_pos[0] - 10), int(waiting_pos[1] * 0.16) + 5), red, 1)
+                    cv2.rectangle(color_feed, (10, 10), (int(waiting_pos[0] - 15), int(waiting_pos[1] * 0.16)), black, -1)
+                    cv2.putText(color_feed, face_detected_text, (15, 30), font, 0.5, white, 1,  cv2.LINE_AA)
+                    cv2.putText(face_detection_box, identified, (x + w + textsize[1] - 15, y - int(textsize[1] / 2)), font_duplex, 0.6, white, 1, cv2.LINE_AA)
+                    cv2.line(color_feed, (x + w + 7, y), (x + w + 160, y), white)
+                    cv2.putText(face_detection_box, labels[ID], (x + w + textsize[1] - 15, y + int(textsize[1] / 2) + 10), font, 0.5, white, 1, cv2.LINE_AA)
 
-                        # Checking names off Excel file:
-                        for row_num in range(resource_data.nrows):
-                            row_value = resource_data.row_values(row_num)
-                            if row_value[0] == labels[ID]:
-                                cv2.putText(face_detection_box, row_value[4], (x + w + textsize[1] - 15, y + int(textsize[1] + 17)), font, 0.5, white, 1, cv2.LINE_AA)
-                            if resource_names[row_value[0]] == 'No':
-                                flag_variable = 1
-                                resource_names[row_value[0]] = 'Yes'
-                                flag_variable = 0
-                                os.startfile(faces_directory + labels[ID] + '\\Script\\' + labels[ID].lower() + '_rdp_login.ps1')
-                                os.startfile(binaries_directory + 'OnscreenChecker\\LoginAssist.py')
-                    else:
-                        cv2.putText(face_detection_box, labels[ID], (x, y + h + textsize[1]), font, 0.5, white, 1, cv2.LINE_AA)
-                        cv2.rectangle(color_feed, (5, 5), (int(waiting_pos[0] + 17), int(waiting_pos[1] * 0.16) + 5), red, 1)
-                        cv2.rectangle(color_feed, (10, 10), (int(waiting_pos[0] + 12), int(waiting_pos[1] * 0.16)), black, -1)
-                        cv2.putText(color_feed, str(face_in_feed.shape[0]) + faces_detected_text, (15, 30), font, 0.5, white, 1, cv2.LINE_AA)
+                    # Checking names off Excel file:
+                    for row_num in range(resource_data.nrows):
+                        row_value = resource_data.row_values(row_num)
+                        if row_value[0] == labels[ID]:
+                            cv2.putText(face_detection_box, row_value[4], (x + w + textsize[1] - 15, y + int(textsize[1] + 17)), font, 0.5, white, 1, cv2.LINE_AA)
+                        if resource_names[row_value[0]] == 'no':
+                            flag_variable = 1
+                            resource_names[row_value[0]] = 'yes'
+                            flag_variable = 0
+                else:
+                    cv2.putText(face_detection_box, labels[ID], (x, y + h + int(h * 0.15) + textsize[1]), font, 0.5, white, 1, cv2.LINE_AA)
+                    cv2.rectangle(color_feed, (5, 5), (int(waiting_pos[0] + 17), int(waiting_pos[1] * 0.16) + 5), red, 1)
+                    cv2.rectangle(color_feed, (10, 10), (int(waiting_pos[0] + 12), int(waiting_pos[1] * 0.16)), black, -1)
+                    cv2.putText(color_feed, str(face_in_feed.shape[0]) + faces_detected_text, (15, 30), font, 0.5, white, 1, cv2.LINE_AA)
             else:
                 cv2.rectangle(color_feed, (5, 5), (int(unfamiliar_pos[0] + 80), int(waiting_pos[1] * 0.16) + 5), white, 1)
                 cv2.rectangle(color_feed, (10, 10), (int(unfamiliar_pos[0] + 75), int(waiting_pos[1] * 0.16)), black, -1)

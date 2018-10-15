@@ -111,16 +111,15 @@ def create_new_profile():
             for search_row in resource_data.rows:
                 if search_row[0].value == input_folder_name.get():
                     messagebox.showinfo('Warning', 'Name already exists. Please choose another name.')
-                    cancel_window()
                 else:
                     new_folder_path = faces_directory + input_folder_name.get() + '\\'
                     if not os.path.exists(new_folder_path):
                         created_folder = os.makedirs(new_folder_path)
-                    username_cell = resource_data['A' + str(last_empty_row)]
-                    username_cell.value = input_folder_name.get()
-                    flag_cell = resource_data['B' + str(last_empty_row)]
-                    flag_cell.value = 'No'
-                    resource_details.save(excels_directory + 'ResourceDetails.xlsx')
+                        username_cell = resource_data['A' + str(last_empty_row)]
+                        username_cell.value = input_folder_name.get()
+                        flag_cell = resource_data['B' + str(last_empty_row)]
+                        flag_cell.value = 'no'
+                        resource_details.save(excels_directory + 'ResourceDetails.xlsx')
         else:
             messagebox.showwarning('Error', 'Folder name cannot contain special characters.')
 
@@ -140,24 +139,24 @@ def create_new_profile():
 
     rdp_environment_cell = resource_data['C' + str(last_empty_row)]
     if rdp_environment_variable.get() == 1:
-        rdp_environment_cell.value = 'RMGP'
-        rdp_environment_value = 'RMGP'
+        rdp_environment_cell.value = 'BBP\\RMGP'
+        rdp_environment_value = 'BBP\\RMGP'
         resource_details.save(excels_directory + '\\ResourceDetails.xlsx')
     elif rdp_environment_variable.get() == 2:
-        rdp_environment_cell.value = 'RMGV'
-        rdp_environment_value = 'RMGV'
+        rdp_environment_cell.value = 'PREPROD\\RMGV'
+        rdp_environment_value = 'PREPROD\\RMGV'
         resource_details.save(excels_directory + '\\ResourceDetails.xlsx')
     elif rdp_environment_variable.get() == 3:
-        rdp_environment_cell.value = 'RMGN'
-        rdp_environment_value = 'RMGN'
+        rdp_environment_cell.value = 'TEST\\RMGN'
+        rdp_environment_value = 'TEST\\RMGN'
         resource_details.save(excels_directory + '\\ResourceDetails.xlsx')
     elif rdp_environment_variable.get() == 4:
-        rdp_environment_cell.value = 'LDAP'
-        rdp_environment_value = 'LDAP'
+        rdp_environment_cell.value = 'DEV\\RMGN'
+        rdp_environment_value = 'DEV\\RMGN'
         resource_details.save(excels_directory + '\\ResourceDetails.xlsx')
     else:
-        rdp_environment_cell.value = 'RMGN'
-        rdp_environment_value = 'RMGN'
+        rdp_environment_cell.value = 'TEST\\RMGN'
+        rdp_environment_value = 'TEST\\RMGN'
         resource_details.save(excels_directory + '\\ResourceDetails.xlsx')
 
     if len(rdp_user_id.get()) == 0:
@@ -271,6 +270,8 @@ def align_face_coords(pos, input_feed, angle):
 # Function displays the rounded rectangle around the detected face
 def face_hud(src, x, y, w, h, color):
     r = int(w / 20)
+    adjustment = 0.15 * h
+    h = int(h + adjustment)
     cv2.line(src, (x + r, y), (x + w - r, y), color)
     cv2.line(src, (x + r, y + h), (x + w - r, y + h), color)
     cv2.line(src, (x, y + r), (x, y + h - r), color)
@@ -309,14 +310,14 @@ environment_buttons_frame.grid(row=2, column=0, sticky='', padx=(5, 5), pady=(0,
 
 # Environment:
 rdp_environment_variable = IntVar()
-rmgp = Radiobutton(environment_buttons_frame, text='RMGP ', variable=rdp_environment_variable, value=1)
+rmgp = Radiobutton(environment_buttons_frame, text='PROD  ', variable=rdp_environment_variable, value=1)
 rmgp.grid(row=1, column=1, sticky='', padx=(1, 10), pady=(0, 5))
-rmgv = Radiobutton(environment_buttons_frame, text='RMGV  ', variable=rdp_environment_variable, value=2)
+rmgv = Radiobutton(environment_buttons_frame, text='PREPROD', variable=rdp_environment_variable, value=2)
 rmgv.grid(row=1, column=2, sticky='', padx=(1, 10), pady=(0, 5))
-rmgn = Radiobutton(environment_buttons_frame, text='RMGN  ', variable=rdp_environment_variable, value=3)
+rmgn = Radiobutton(environment_buttons_frame, text='TEST  ', variable=rdp_environment_variable, value=3)
 rmgn.grid(row=1, column=3, sticky='', padx=(1, 10), pady=(0, 5))
-ldap = Radiobutton(environment_buttons_frame, text='LDAP ', variable=rdp_environment_variable, value=4)
-ldap.grid(row=1, column=4, sticky='', padx=(1, 10), pady=(0, 5))
+dev = Radiobutton(environment_buttons_frame, text='DEV   ', variable=rdp_environment_variable, value=4)
+dev.grid(row=1, column=4, sticky='', padx=(1, 10), pady=(0, 5))
 
 # Environment credentials frame:
 environment_frame = LabelFrame(base_window, text='Environment Credentials')
@@ -347,7 +348,7 @@ script_folder = new_folder_path + 'Script\\'
 if not os.path.exists(script_folder):
     os.makedirs(script_folder)
 user_rdp_login_script = open(script_folder + new_folder_value.lower() + '_rdp_login.ps1', 'w+')
-user_rdp_login_script.write(rdp_login_script + ' "' + rdp_environment_value + '" "' + rdp_user_id_value + '" "' + rdp_password_value + '" "No" "All"')
+user_rdp_login_script.write(rdp_login_script + ' "' + rdp_environment_value + '" "' + rdp_user_id_value + '" "' + rdp_password_value + '" "no" "ALL"')
 user_rdp_login_script.close()
 
 # Face Recognizer:
@@ -355,7 +356,7 @@ face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 
 # Output live feed:
 live_capture = cv2.VideoCapture(0)
-frames_to_be_captured = 1300
+frames_to_be_captured = 500
 
 # Start face capture:
 while (filename <= frames_to_be_captured):
@@ -390,12 +391,8 @@ while (filename <= frames_to_be_captured):
 
         # Facial Landmarks:
         for (x, y, w, h) in face_in_feed:
-            if len(face_in_feed) == 1:
-                face_hud(color_feed, x, y, w, h, yellow)
-            else:
-                face_hud(color_feed, x, y, w, h, random.sample(hud_color, 3))
+            face_hud(color_feed, x, y, w, h, yellow)
             r = int(w / 20)
-            face_detection_box = cv2.rectangle(color_feed, (x + r, y), (x + r, y), yellow, 1)
             face_detection_box_using_dlib = dlib.rectangle(int(x), int(y), int(x + w), int(y + h))
             detected_landmarks = facial_landmarks_cascade(color_feed, face_detection_box_using_dlib).parts()
             facial_landmarks = np.matrix([[p.x, p.y] for p in detected_landmarks])
