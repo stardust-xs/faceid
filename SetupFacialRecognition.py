@@ -353,7 +353,7 @@ script_folder = new_folder_path + 'Script\\'
 if not os.path.exists(script_folder):
     os.makedirs(script_folder)
 user_rdp_login_script = open(script_folder + new_folder_value.lower() + '_rdp_login.ps1', 'w+')
-user_rdp_login_script.write('powershell.exe -ExecutionPolicy Bypass -file' + rdp_login_script + ' "' + rdp_environment_value + '" "' + rdp_user_id_value + '" "' + rdp_password_value + '" "no" "ALL"')
+user_rdp_login_script.write('powershell.exe -ExecutionPolicy Bypass -file ' + rdp_login_script + ' "' + rdp_environment_value + '" "' + rdp_user_id_value + '" "' + rdp_password_value + '" "no" "ALL"')
 user_rdp_login_script.close()
 
 # Face Recognizer:
