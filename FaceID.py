@@ -6,7 +6,6 @@ import win32gui
 import win32con
 import subprocess
 from math import sin, cos, radians
-from collections import OrderedDict
 
 # From packages import:
 import cv2
@@ -209,9 +208,9 @@ while (True):
                         if row_value[0] == labels[ID] and resource_names[row_value[0]] == 'no':
                             flag_variable = 1
                             cv2.putText(face_detection_box, row_value[4], (x + w + textsize[1] - 15, y + int(textsize[1] + 17)), font, 0.5, white, 1, cv2.LINE_AA)
-                            # os.startfile(faces_directory + labels[ID] + '\\Script\\' + labels[ID].lower() + '_rdp_login.ps1')
-                            # click_on_visible(ok_image, 5)
-                            # os.startfile(binaries_directory + 'RemoteDesktopLogin\\terminal\\LoginAssist.pyw')
+                            os.startfile(faces_directory + labels[ID] + '\\Script\\' + labels[ID].lower() + '_rdp_login.ps1')
+                            click_on_visible(ok_image, 5)
+                            os.startfile(binaries_directory + 'RemoteDesktopLogin\\terminal\\LoginAssist.pyw')
                             resource_names[row_value[0]] = 'yes'
                             flag_variable = 0
                 else:
