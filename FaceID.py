@@ -6,6 +6,7 @@ import win32gui
 import win32con
 import subprocess
 from math import sin, cos, radians
+from collections import OrderedDict
 
 # From packages import:
 import cv2
@@ -208,9 +209,9 @@ while (True):
                         if row_value[0] == labels[ID] and resource_names[row_value[0]] == 'no':
                             flag_variable = 1
                             cv2.putText(face_detection_box, row_value[4], (x + w + textsize[1] - 15, y + int(textsize[1] + 17)), font, 0.5, white, 1, cv2.LINE_AA)
-                            os.startfile(faces_directory + labels[ID] + '\\Script\\' + labels[ID].lower() + '_rdp_login.ps1')
-                            click_on_visible(ok_image, 5)
-                            os.startfile(binaries_directory + 'RemoteDesktopLogin\\terminal\\LoginAssist.pyw')
+                            # os.startfile(faces_directory + labels[ID] + '\\Script\\' + labels[ID].lower() + '_rdp_login.ps1')
+                            # click_on_visible(ok_image, 5)
+                            # os.startfile(binaries_directory + 'RemoteDesktopLogin\\terminal\\LoginAssist.pyw')
                             resource_names[row_value[0]] = 'yes'
                             flag_variable = 0
                 else:
@@ -219,13 +220,16 @@ while (True):
                     cv2.rectangle(color_feed, (10, 10), (int(waiting_pos[0] + 12), int(waiting_pos[1] * 0.16)), black, -1)
                     cv2.putText(color_feed, str(face_in_feed.shape[0]) + faces_detected_text, (15, 30), font, 0.5, white, 1, cv2.LINE_AA)
             else:
-                cv2.rectangle(color_feed, (5, 5), (int(unfamiliar_pos[0] + 80), int(waiting_pos[1] * 0.16) + 5), white, 1)
-                cv2.rectangle(color_feed, (10, 10), (int(unfamiliar_pos[0] + 75), int(waiting_pos[1] * 0.16)), black, -1)
-                cv2.putText(color_feed, unfamiliar_face_text, (15, 30), font, 0.5, red, 1, cv2.LINE_AA)
+                if len(face_in_feed) == 1:
+                    cv2.putText(face_detection_box, 'No match found', (x + w + textsize[1] - 15, y - int(textsize[1] / 2)), font_duplex, 0.6, white, 1, cv2.LINE_AA)
+                    cv2.line(color_feed, (x + w + 7, y), (x + w + 160, y), white)
+                    cv2.putText(face_detection_box, 'Unknown', (x + w + textsize[1] - 15, y + int(textsize[1] / 2) + 10), font, 0.5, red, 1, cv2.LINE_AA)
+                else:
+                    cv2.putText(face_detection_box, 'Unknown', (x, y + h + int(h * 0.15) + textsize[1]), font, 0.5, red, 1, cv2.LINE_AA)
 
     # Output window:
     resized_feed = cv2.resize(color_feed, dimensions, interpolation=cv2.INTER_AREA)
-    cv2.imshow('XA Face ID - Live Output Feed', color_feed)
+    cv2.imshow('XA FaceID - Live Output Feed', color_feed)
     if cv2.waitKey(5) & 0xFF == int(27):
         print(colored('[FEED]', 'green'), ' Ending Live Output Feed...', colored('\n[EXIT]', 'blue'), ' Live Feed stopped.')
         break
