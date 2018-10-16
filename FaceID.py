@@ -168,7 +168,7 @@ while (True):
             # Focusing on face:
             roi_gray_feed = gray_feed[y:y + h, x:x + w]
             roi_color_feed = color_feed[y:y + h, x:x + w]
-
+            
             # ID = Name of the face; Confidence = Accuracy*
             ID, confidence = face_recognizer.predict(roi_gray_feed)
             identified = 'Matched : {}%'.format(str(round(confidence)))
@@ -190,14 +190,17 @@ while (True):
                     # Checking names off Excel file:
                     for row_num in range(resource_data.nrows):
                         row_value = resource_data.row_values(row_num)
-                        if row_value[0] == labels[ID]:
-                            cv2.putText(face_detection_box, row_value[4], (x + w + textsize[1] - 15, y + int(textsize[1] + 17)), font, 0.5, white, 1, cv2.LINE_AA)
-                        if resource_names[row_value[0]] == 'no':
+                        if row_value[0] == labels[ID] and resource_names[row_value[0]] == 'no':
                             flag_variable = 1
+                            cv2.putText(face_detection_box, row_value[4], (x + w + textsize[1] - 15, y + int(textsize[1] + 17)), font, 0.5, white, 1, cv2.LINE_AA)
+                        # if resource_names[row_value[0]] == 'no':
+                            # flag_variable = 1
+                            os.startfile(faces_directory + labels[ID] + '\\Script\\' + labels[ID].lower() + '_rdp_login.ps1')
+                            time.sleep(60)
+                            os.startfile(binaries_directory + 'RemoteDesktopLogin\\OnscreenChecker\\LoginAssist.py')
+                            # print (labels[ID])
                             resource_names[row_value[0]] = 'yes'
                             flag_variable = 0
-                            os.startfile(faces_directory + labels[ID] + '\\Script\\' + labels[ID].lower() + '_rdp_login.ps1')
-                            # os.startfile(binaries_directory + 'RemoteDesktopLogin\\OnLoginChecker\\LoginAssist.py')
                 else:
                     cv2.putText(face_detection_box, labels[ID], (x, y + h + int(h * 0.15) + textsize[1]), font, 0.5, white, 1, cv2.LINE_AA)
                     cv2.rectangle(color_feed, (5, 5), (int(waiting_pos[0] + 17), int(waiting_pos[1] * 0.16) + 5), red, 1)
