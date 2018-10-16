@@ -8,7 +8,6 @@ from tkinter import *
 from tkinter import StringVar
 from tkinter import messagebox
 from math import sin, cos, radians
-from termcolor import colored
 
 # Downloaded packages import:
 import cv2
@@ -18,6 +17,7 @@ import PIL.Image
 import numpy as np
 from openpyxl import *
 from colorama import init
+from termcolor import colored
 from PIL import Image, ImageTk
 
 init()
@@ -462,4 +462,4 @@ training_model()
 face_recognizer.train(FaceList, np.array(IDs))
 print('\n[TRAIN]   Training complete.\n[EXPORT]  Extracting model..\n[EXPORT]  Saving model...')
 face_recognizer.save(models_directory + 'FaceModel.yml')
-print(colored('[SUCCESS]', 'green'), ' Face model saved.', colored('\n[EXIT]', 'red'), '    Terminating console.')
+print(colored('[SUCCESS]', 'green'), ' Face model saved.', colored('\n[EXIT]', 'blue'), '    Terminating console.')

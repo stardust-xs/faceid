@@ -14,6 +14,10 @@ import xlrd
 import pickle
 import pyautogui
 import numpy as np
+from colorama import init
+from termcolor import colored
+
+init()
 
 # Directories declaration:
 root_directory = os.path.dirname(os.path.abspath('__file__'))
@@ -223,7 +227,7 @@ while (True):
     resized_feed = cv2.resize(color_feed, dimensions, interpolation=cv2.INTER_AREA)
     cv2.imshow('XA Face ID - Live Output Feed', color_feed)
     if cv2.waitKey(5) & 0xFF == int(27):
-        print('>>> Ending Live Output Feed...\n>>> Live Feed stopped.')
+        print(colored('[FEED]', 'green'), ' Ending Live Output Feed...', colored('\n[EXIT]', 'blue'), ' Live Feed stopped.')
         break
 
 # Releasing object:
