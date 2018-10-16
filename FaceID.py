@@ -12,6 +12,7 @@ import cv2
 import dlib
 import xlrd
 import pickle
+import pyautogui
 import numpy as np
 
 # Directories declaration:
@@ -26,6 +27,7 @@ haar_directory = os.path.join(cascades_directory, 'Haar\\')
 models_directory = os.path.join(root_directory, 'Models\\')
 if not os.path.exists(models_directory):
     os.makedirs(models_directory)
+screenshots_directory = os.path.join(binaries_directory, 'RemoteDesktopLogin\\terminal\\screenshots\\')
 
 # Excel objects:
 resource_details = xlrd.open_workbook(excels_directory + 'ResourceDetails.xlsx')
@@ -63,7 +65,7 @@ font_duplex = cv2.FONT_HERSHEY_DUPLEX
 
 # Flag variables:
 flag_variable = 0
-xa_has_run = False
+ok_image = screenshots_directory + 'ok.PNG'
 
 # Functions:
 def face_hud(src, x, y, w, h, color):
@@ -99,6 +101,15 @@ def text_xy_pos(text):
     text_x = (gray_feed.shape[1] - text_size[0]) / 2
     text_y = (gray_feed.shape[0] + text_size[1]) / 2
     return text_x, text_y
+
+def click_on_visible(image, padding_x=0, padding_y=0, secs=0):
+    image_button = None
+    while image_button is None:
+        image_button = pyautogui.locateOnScreen(image)
+    image_button =  pyautogui.locateOnScreen(image)
+    image_button_x, image_button_y = pyautogui.center(image_button)
+    pyautogui.click(image_button_x + padding_x, image_button_y + padding_y)
+    time.sleep(secs)
 
 # Texts:
 warning_text = 'TOO MANY PEOPLE IN THE VIEW!'
@@ -193,12 +204,9 @@ while (True):
                         if row_value[0] == labels[ID] and resource_names[row_value[0]] == 'no':
                             flag_variable = 1
                             cv2.putText(face_detection_box, row_value[4], (x + w + textsize[1] - 15, y + int(textsize[1] + 17)), font, 0.5, white, 1, cv2.LINE_AA)
-                        # if resource_names[row_value[0]] == 'no':
-                            # flag_variable = 1
                             os.startfile(faces_directory + labels[ID] + '\\Script\\' + labels[ID].lower() + '_rdp_login.ps1')
-                            time.sleep(60)
-                            os.startfile(binaries_directory + 'RemoteDesktopLogin\\OnscreenChecker\\LoginAssist.py')
-                            # print (labels[ID])
+                            click_on_visible(ok_image, 5)
+                            os.startfile(binaries_directory + 'RemoteDesktopLogin\\terminal\\LoginAssist.pyw')
                             resource_names[row_value[0]] = 'yes'
                             flag_variable = 0
                 else:
