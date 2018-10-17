@@ -12,6 +12,7 @@ import cv2
 import dlib
 import xlrd
 import pickle
+import keyboard
 import pyautogui
 import numpy as np
 from colorama import init
@@ -69,7 +70,14 @@ font_duplex = cv2.FONT_HERSHEY_DUPLEX
 
 # Flag variables:
 flag_variable = 0
+# ok_image = screenshots_directory + 'ok.PNG'
+explorer_image = screenshots_directory + 'explorer.PNG'
 ok_image = screenshots_directory + 'ok.PNG'
+hta_gui_image = screenshots_directory + 'hta_gui.PNG'
+start_image = screenshots_directory + 'start.PNG'
+tog_ie_image = screenshots_directory + 'tog_ie.PNG'
+ie_yellow_image = screenshots_directory + 'ie_yellow.PNG'
+maximize_image = screenshots_directory + 'maximize.PNG'
 
 # Functions:
 def face_hud(src, x, y, w, h, color):
@@ -105,6 +113,11 @@ def text_xy_pos(text):
     text_x = (gray_feed.shape[1] - text_size[0]) / 2
     text_y = (gray_feed.shape[0] + text_size[1]) / 2
     return text_x, text_y
+
+def wait_till_visible(image):
+    image_button = None
+    while image_button is None:
+        image_button = pyautogui.locateOnScreen(image)
 
 def click_on_visible(image, padding_x=0, padding_y=0, secs=0):
     image_button = None
@@ -209,8 +222,24 @@ while (True):
                             flag_variable = 1
                             cv2.putText(face_detection_box, row_value[4], (x + w + textsize[1] - 15, y + int(textsize[1] + 17)), font, 0.5, white, 1, cv2.LINE_AA)
                             os.startfile(faces_directory + labels[ID] + '\\Script\\' + labels[ID].lower() + '_rdp_login.ps1')
-                            click_on_visible(ok_image, 5)
-                            os.startfile(binaries_directory + 'RemoteDesktopLogin\\terminal\\LoginAssist.pyw')
+                            click_on_visible(ok_image,secs=5)
+                            # click_on_visible(explorer_image,2)
+                            # keyboard.write('Desktop')
+                            # keyboard.press('Enter')
+                            # time.sleep(2)
+                            pyautogui.hotkey('winleft', 'd')
+                            time.sleep(3)
+                            keyboard.write('OneClick_v4')
+                            keyboard.press('enter')
+                            time.sleep(3)
+                            # wait_till_visible(hta_gui_image)
+                            keyboard.write('Click to open GUI.hta')
+                            keyboard.press('enter')
+                            time.sleep(5)
+                            click_on_visible(start_image,secs=3)
+                            click_on_visible(tog_ie_image, padding_y=-24,secs=2)
+                            # click_on_visible(ie_yellow_image,secs=5)
+                            click_on_visible(maximize_image, padding_y=-32)
                             resource_names[row_value[0]] = 'yes'
                             flag_variable = 0
                 else:
