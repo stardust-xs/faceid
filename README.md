@@ -152,7 +152,7 @@ Feel free to send pull requests and raise issues.
 * Stick to minimal and simplistic approach of coding using comments wherever necessary.
     
 ## Credits
-* Sakti for his Powershell based Remote Desktop login app.
+* [Sakti](https://github.com/saktikanta) for his Powershell based Remote Desktop login app.
 * Pratijeet Bhawsar and Sachin Sanap for helping develop single user detection action logic.
 
 ## License
