@@ -1,8 +1,5 @@
 
 <h1 align="center">
-  <br>
-  <img alt="FaceID" title="FaceID" src="https://github.com/xames3/FaceID/blob/repository_assets/PopShot_XA_logo_small.png?raw=true" width="250"></a>
-  <br>
   FaceID
   <br>
 </h1>
