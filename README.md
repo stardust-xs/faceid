@@ -4,7 +4,7 @@
   <br>
 </h1>
 
-<h4 align="center">Your face is the new password. Built in <a href="https://www.python.org/downloads/" target="_blank">Python</a>.</h4>
+<h4 align="center">Your face is the new password. Built with <a href="https://www.python.org/downloads/" target="_blank">Python</a>.</h4>
 
 <p align="center">
   <a href="#introduction">Introduction</a> •
